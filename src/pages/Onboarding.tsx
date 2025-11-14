@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ChevronRight, FileText, Image, Images, Check, X } from "lucide-react";
+import { ChevronRight, Circle, Square, Triangle, Star, Hexagon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const OnboardingPage1 = () => {
   return (
@@ -9,13 +10,13 @@ const OnboardingPage1 = () => {
           <div className="absolute inset-0 bg-gradient-glow-purple blur-3xl animate-glow-pulse" />
           <div className="relative flex gap-8 items-center justify-center animate-float">
             <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-white/10">
-              <FileText className="w-8 h-8 text-white/90" />
+              <Circle className="w-8 h-8 text-white/90" />
             </div>
             <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-white/10">
-              <Image className="w-8 h-8 text-white/90" />
+              <Square className="w-8 h-8 text-white/90" />
             </div>
             <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-white/10">
-              <Images className="w-8 h-8 text-white/90" />
+              <Triangle className="w-8 h-8 text-white/90" />
             </div>
           </div>
         </div>
@@ -50,13 +51,13 @@ const OnboardingPage2 = () => {
           
           <div className="absolute -left-16 top-1/2 -translate-y-1/2">
             <div className="w-12 h-12 rounded-full bg-red-500/20 backdrop-blur-sm border border-red-500/40 flex items-center justify-center">
-              <X className="w-6 h-6 text-red-400" />
+              <span className="text-2xl">✕</span>
             </div>
           </div>
           
           <div className="absolute -right-16 top-1/2 -translate-y-1/2">
             <div className="w-12 h-12 rounded-full bg-green-500/20 backdrop-blur-sm border border-green-500/40 flex items-center justify-center">
-              <Check className="w-6 h-6 text-green-400" />
+              <span className="text-2xl">✓</span>
             </div>
           </div>
         </div>
@@ -103,11 +104,7 @@ const OnboardingPage3 = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5" />
                 {item.hasCheck && (
                   <div className={`relative z-10 w-8 h-8 rounded-full ${item.isCheck ? 'bg-green-500/20 border-green-500/40' : 'bg-red-500/20 border-red-500/40'} border flex items-center justify-center`}>
-                    {item.isCheck ? (
-                      <Check className="w-5 h-5 text-green-400" />
-                    ) : (
-                      <X className="w-5 h-5 text-red-400" />
-                    )}
+                    <span className="text-lg">{item.isCheck ? '✓' : '✕'}</span>
                   </div>
                 )}
               </div>
@@ -130,6 +127,7 @@ const OnboardingPage3 = () => {
 };
 
 const Onboarding = () => {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const pages = [OnboardingPage1, OnboardingPage2, OnboardingPage3];
   const CurrentPageComponent = pages[currentPage];
@@ -137,6 +135,8 @@ const Onboarding = () => {
   const handleNext = () => {
     if (currentPage < pages.length - 1) {
       setCurrentPage(currentPage + 1);
+    } else {
+      navigate("/");
     }
   };
 
