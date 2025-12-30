@@ -14,8 +14,13 @@ const Index = () => {
             </button>
           </Link>
           <Link to="/main">
-            <button className="w-full px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold text-lg hover:scale-105 transition-transform duration-200">
+            <button className="w-full px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold text-lg hover:scale-105 transition-transform duration-200 mt-4">
               Go to Main App
+            </button>
+          </Link>
+          <Link to="/sorting-loader">
+            <button className="w-full px-8 py-4 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/70 font-medium text-lg hover:scale-105 transition-transform duration-200 mt-4">
+              View Sorting Loader
             </button>
           </Link>
         </div>
