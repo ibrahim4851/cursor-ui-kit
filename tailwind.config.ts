@@ -98,6 +98,22 @@ export default {
           "0%": { transform: "translateY(-100%)" },
           "100%": { transform: "translateY(100%)" },
         },
+        "conveyorLeft": {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-24px)" },
+        },
+        "conveyorRight": {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(24px)" },
+        },
+        "conveyorUp": {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(-24px)" },
+        },
+        "scanVertical": {
+          "0%, 100%": { transform: "translateY(-20px)", opacity: "0" },
+          "50%": { transform: "translateY(20px)", opacity: "1" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -109,6 +125,10 @@ export default {
         "tilt": "tilt 2s ease-in-out infinite",
         "scale-in": "scale-in 0.2s ease-out",
         "scan": "scan 0.5s ease-out",
+        "conveyorLeft": "conveyorLeft 0.3s linear infinite",
+        "conveyorRight": "conveyorRight 0.3s linear infinite",
+        "conveyorUp": "conveyorUp 0.3s linear infinite",
+        "scanVertical": "scanVertical 1.5s ease-in-out infinite",
       },
       backgroundImage: {
         "gradient-primary": "var(--gradient-primary)",

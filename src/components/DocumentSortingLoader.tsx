@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { FileText, Mountain, User, Settings } from "lucide-react";
+import { FileText, Mountain, User, Folder, Trash2 } from "lucide-react";
 
 type PhotoType = "document" | "landscape" | "portrait";
+type Phase = "onBelt" | "enteringMachine" | "analyzing" | "exiting" | "done";
 
 interface PhotoItem {
   id: number;
   type: PhotoType;
-  phase: "entering" | "scanning" | "sorting" | "done";
+  phase: Phase;
 }
 
 const DocumentSortingLoader = () => {
@@ -21,139 +22,196 @@ const DocumentSortingLoader = () => {
       const newPhoto: PhotoItem = {
         id: photoId++,
         type,
-        phase: "entering"
+        phase: "onBelt"
       };
       
-      setPhotos(prev => [...prev.slice(-4), newPhoto]);
+      setPhotos(prev => [...prev.slice(-3), newPhoto]);
       
+      // Enter machine
       setTimeout(() => {
         setPhotos(prev => 
-          prev.map(p => p.id === newPhoto.id ? { ...p, phase: "scanning" } : p)
+          prev.map(p => p.id === newPhoto.id ? { ...p, phase: "enteringMachine" } : p)
         );
-      }, 400);
+      }, 600);
       
+      // Analyzing inside machine
       setTimeout(() => {
         setPhotos(prev => 
-          prev.map(p => p.id === newPhoto.id ? { ...p, phase: "sorting" } : p)
+          prev.map(p => p.id === newPhoto.id ? { ...p, phase: "analyzing" } : p)
         );
       }, 900);
       
+      // Exit machine
+      setTimeout(() => {
+        setPhotos(prev => 
+          prev.map(p => p.id === newPhoto.id ? { ...p, phase: "exiting" } : p)
+        );
+      }, 1400);
+      
+      // Done
       setTimeout(() => {
         setPhotos(prev => 
           prev.map(p => p.id === newPhoto.id ? { ...p, phase: "done" } : p)
         );
-      }, 1400);
+      }, 2000);
     };
 
     spawnPhoto();
-    const interval = setInterval(spawnPhoto, 1600);
+    const interval = setInterval(spawnPhoto, 2200);
     
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="fixed inset-0 bg-background flex items-center justify-center overflow-hidden">
-      {/* Background gears */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="relative">
-          <div className="absolute -left-16 -top-8 opacity-[0.04]">
-            <Settings 
-              size={120} 
-              className="animate-[spin_12s_linear_infinite]"
-              strokeWidth={1}
-            />
-          </div>
-          <div className="absolute -right-12 top-4 opacity-[0.04]">
-            <Settings 
-              size={80} 
-              className="animate-[spin_8s_linear_infinite_reverse]"
-              strokeWidth={1}
-            />
+      {/* Conveyor belt - Left (input) */}
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[calc(50%-48px)] h-3 flex items-center">
+        <div className="w-full h-full bg-muted/30 rounded-r-sm relative overflow-hidden">
+          <div className="absolute inset-0 flex items-center">
+            {[...Array(12)].map((_, i) => (
+              <div 
+                key={i} 
+                className="w-4 h-1 bg-muted-foreground/20 rounded-full mx-2 animate-[conveyorLeft_1s_linear_infinite]"
+                style={{ animationDelay: `${i * 0.08}s` }}
+              />
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Document destination - top */}
-      <div className="absolute top-28 left-1/2 -translate-x-1/2">
-        <FileText size={28} className="text-primary/40" />
+      {/* Conveyor belt - Right (trash) */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[calc(50%-48px)] h-3 flex items-center">
+        <div className="w-full h-full bg-muted/30 rounded-l-sm relative overflow-hidden">
+          <div className="absolute inset-0 flex items-center">
+            {[...Array(12)].map((_, i) => (
+              <div 
+                key={i} 
+                className="w-4 h-1 bg-muted-foreground/20 rounded-full mx-2 animate-[conveyorRight_1s_linear_infinite]"
+                style={{ animationDelay: `${i * 0.08}s` }}
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Photo destination - right */}
-      <div className="absolute right-12 top-1/2 -translate-y-1/2 flex flex-col gap-3">
-        <Mountain size={24} className="text-muted-foreground/30" />
-        <User size={24} className="text-muted-foreground/30" />
+      {/* Conveyor belt - Top (documents) */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[calc(50%-48px)] w-3 flex flex-col items-center">
+        <div className="w-full h-full bg-muted/30 rounded-b-sm relative overflow-hidden">
+          <div className="absolute inset-0 flex flex-col items-center">
+            {[...Array(8)].map((_, i) => (
+              <div 
+                key={i} 
+                className="h-4 w-1 bg-muted-foreground/20 rounded-full my-2 animate-[conveyorUp_1s_linear_infinite]"
+                style={{ animationDelay: `${i * 0.1}s` }}
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Sorting area */}
-      <div className="relative w-64 h-64 flex items-center justify-center">
-        <div className="absolute w-16 h-16 rounded-full border border-foreground/5 bg-foreground/[0.02]" />
+      {/* Folder destination (top) */}
+      <div className="absolute top-8 left-1/2 -translate-x-1/2">
+        <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
+          <Folder size={28} className="text-primary" />
+        </div>
+      </div>
+
+      {/* Trash destination (right) */}
+      <div className="absolute right-8 top-1/2 -translate-y-1/2">
+        <div className="p-3 rounded-xl bg-muted/50 border border-border">
+          <Trash2 size={24} className="text-muted-foreground" />
+        </div>
+      </div>
+
+      {/* Machine (center) */}
+      <div className="relative w-24 h-24 rounded-2xl bg-card border border-border shadow-lg flex items-center justify-center z-10">
+        {/* Inner glow effect */}
+        <div className="absolute inset-2 rounded-xl bg-gradient-to-br from-primary/5 to-transparent" />
         
+        {/* Scan line */}
+        <div className="absolute inset-x-3 h-0.5 bg-gradient-to-r from-transparent via-primary/50 to-transparent animate-[scanVertical_1.5s_ease-in-out_infinite]" />
+        
+        {/* Machine dots */}
+        <div className="absolute top-2 right-2 flex gap-1">
+          <div className="w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse" />
+          <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground/30" />
+        </div>
+
+        {/* Photos inside machine */}
         {photos.map(photo => (
-          <PhotoCard key={photo.id} photo={photo} />
+          <PhotoItem key={photo.id} photo={photo} />
         ))}
       </div>
     </div>
   );
 };
 
-const PhotoCard = ({ photo }: { photo: PhotoItem }) => {
+const PhotoItem = ({ photo }: { photo: PhotoItem }) => {
   const isDocument = photo.type === "document";
   
-  const getStyles = (): string => {
-    const base = "absolute transition-all duration-500 ease-out";
-    
+  const getPosition = (): React.CSSProperties => {
     switch (photo.phase) {
-      case "entering":
-        return `${base} -translate-x-40 opacity-0 scale-90`;
-      case "scanning":
-        return `${base} translate-x-0 opacity-100 scale-100`;
-      case "sorting":
+      case "onBelt":
+        return {
+          transform: "translateX(-140px)",
+          opacity: 1,
+        };
+      case "enteringMachine":
+        return {
+          transform: "translateX(0)",
+          opacity: 1,
+        };
+      case "analyzing":
+        return {
+          transform: "translateX(0) scale(1.1)",
+          opacity: 1,
+        };
+      case "exiting":
         if (isDocument) {
-          return `${base} -translate-y-36 opacity-100 scale-90`;
+          return {
+            transform: "translateY(-140px)",
+            opacity: 1,
+          };
         } else {
-          return `${base} translate-x-36 opacity-0 scale-75`;
+          return {
+            transform: "translateX(140px)",
+            opacity: 0.6,
+          };
         }
       case "done":
-        return `${base} opacity-0 pointer-events-none`;
+        return {
+          transform: isDocument ? "translateY(-180px)" : "translateX(180px)",
+          opacity: 0,
+        };
       default:
-        return base;
+        return {};
     }
   };
 
-  const getGlowStyles = (): string => {
-    if (photo.phase === "scanning") {
-      return isDocument 
-        ? "drop-shadow-[0_0_12px_rgba(177,108,234,0.5)]"
-        : "drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]";
-    }
-    return "";
-  };
-
-  const renderIcon = () => {
-    const baseClass = `transition-all duration-300 ${getGlowStyles()}`;
-    const color = photo.phase === "scanning" 
-      ? (isDocument ? "text-primary" : "text-foreground/70")
-      : "text-muted-foreground/60";
+  const getIcon = () => {
+    const isAnalyzing = photo.phase === "analyzing";
+    const baseClass = `transition-all duration-200 ${isAnalyzing ? "text-primary" : "text-foreground/70"}`;
     
     switch (photo.type) {
       case "document":
-        return <FileText size={32} className={`${baseClass} ${color}`} />;
+        return <FileText size={24} className={baseClass} />;
       case "landscape":
-        return <Mountain size={32} className={`${baseClass} ${color}`} />;
+        return <Mountain size={24} className={baseClass} />;
       case "portrait":
-        return <User size={32} className={`${baseClass} ${color}`} />;
+        return <User size={24} className={baseClass} />;
     }
   };
 
   return (
-    <div className={getStyles()}>
-      {renderIcon()}
-      
-      {photo.phase === "scanning" && isDocument && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-8 h-8 rounded-full bg-primary/10 animate-ping" />
-        </div>
-      )}
+    <div 
+      className="absolute transition-all duration-500 ease-out"
+      style={getPosition()}
+    >
+      <div className={`p-2 rounded-lg bg-background/80 border border-border/50 shadow-sm ${
+        photo.phase === "analyzing" ? "ring-2 ring-primary/30 shadow-primary/20 shadow-lg" : ""
+      }`}>
+        {getIcon()}
+      </div>
     </div>
   );
 };
