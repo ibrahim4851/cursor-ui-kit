@@ -10,8 +10,8 @@ import SmartCleanScreen from "./components/SmartCleanScreen";
 import SwipeScreen from "./components/SwipeScreen";
 import ReviewScreen from "./components/ReviewScreen";
 import SettingsScreen from "./components/SettingsScreen";
+import DocumentSortingLoader from "./components/DocumentSortingLoader";
 import NotFound from "./pages/NotFound";
-
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -28,6 +28,7 @@ const App = () => (
           <Route path="/swipe" element={<SwipeScreen />} />
           <Route path="/review" element={<ReviewScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
+          <Route path="/sorting-loader" element={<DocumentSortingLoader />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
