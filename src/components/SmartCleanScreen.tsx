@@ -10,80 +10,56 @@ import {
   Copy,
   Images,
   HardDrive,
-  LucideIcon
+  LucideIcon,
+  Check
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 interface FilterConfig {
   key: string;
   label: string;
-  description: string;
   icon: LucideIcon;
 }
 
-const SliderToggle = ({ 
+interface CategoryConfig {
+  title: string;
+  filters: FilterConfig[];
+}
+
+const FilterCard = ({ 
+  label, 
+  icon: Icon,
   enabled, 
   onToggle 
 }: { 
+  label: string; 
+  icon: LucideIcon;
   enabled: boolean; 
   onToggle: () => void;
 }) => {
   return (
     <button
       onClick={onToggle}
-      className={`w-11 h-6 rounded-full transition-all duration-400 relative flex-shrink-0 ${
-        enabled ? 'bg-white' : 'bg-white/20'
+      className={`relative flex flex-col items-center justify-center p-4 rounded-2xl aspect-square transition-all duration-300 ${
+        enabled 
+          ? 'bg-white text-[#0A0A0F]' 
+          : 'bg-white/[0.05] text-white/60 hover:bg-white/[0.08]'
       }`}
     >
-      <div 
-        className={`absolute top-1 w-4 h-4 rounded-full transition-all duration-400 ease-out ${
-          enabled 
-            ? 'left-6 bg-[#0A0A0F]' 
-            : 'left-1 bg-white/60'
-        }`} 
-      />
-    </button>
-  );
-};
-
-const FilterRow = ({ 
-  label, 
-  description,
-  icon: Icon,
-  enabled, 
-  onToggle,
-  isLast
-}: { 
-  label: string; 
-  description: string;
-  icon: LucideIcon;
-  enabled: boolean; 
-  onToggle: () => void;
-  isLast: boolean;
-}) => {
-  return (
-    <div className={`py-4 ${!isLast ? 'border-b border-white/[0.06]' : ''}`}>
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          <Icon className={`w-[18px] h-[18px] flex-shrink-0 transition-colors duration-300 ${
-            enabled ? 'text-white' : 'text-white/30'
-          }`} />
-          <div className="flex-1 min-w-0">
-            <span className={`text-[15px] transition-colors duration-300 ${
-              enabled ? 'text-white' : 'text-white/50'
-            }`}>
-              {label}
-            </span>
-          </div>
+      {enabled && (
+        <div className="absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-[#0A0A0F] flex items-center justify-center">
+          <Check className="w-3 h-3 text-white" strokeWidth={3} />
         </div>
-        <SliderToggle enabled={enabled} onToggle={onToggle} />
-      </div>
-      <p className={`text-[12px] mt-1.5 ml-[30px] transition-colors duration-300 ${
-        enabled ? 'text-white/40' : 'text-white/20'
+      )}
+      <Icon className={`w-7 h-7 mb-2 transition-colors duration-300 ${
+        enabled ? 'text-[#0A0A0F]' : 'text-white/50'
+      }`} />
+      <span className={`text-[13px] font-medium text-center leading-tight transition-colors duration-300 ${
+        enabled ? 'text-[#0A0A0F]' : 'text-white/70'
       }`}>
-        {description}
-      </p>
-    </div>
+        {label}
+      </span>
+    </button>
   );
 };
 
@@ -100,48 +76,33 @@ const SmartCleanScreen = () => {
     largeFiles: false,
   });
 
-  const filterList: FilterConfig[] = [
-    { 
-      key: "blurry", 
-      label: "Blurry photos", 
-      description: "Out-of-focus or motion-blurred",
-      icon: Camera
+  const categories: CategoryConfig[] = [
+    {
+      title: "Quality",
+      filters: [
+        { key: "blurry", label: "Blurry", icon: Camera },
+        { key: "lowRes", label: "Low Res", icon: ImageMinus },
+      ]
     },
-    { 
-      key: "lowRes", 
-      label: "Low resolution", 
-      description: "Below 1MP, may look pixelated",
-      icon: ImageMinus
+    {
+      title: "Videos",
+      filters: [
+        { key: "shortVideos", label: "Short", icon: Film },
+        { key: "longVideos", label: "Long", icon: Clock },
+      ]
     },
-    { 
-      key: "shortVideos", 
-      label: "Short videos", 
-      description: "Under 3 seconds",
-      icon: Film
+    {
+      title: "Duplicates",
+      filters: [
+        { key: "exactDuplicates", label: "Exact", icon: Copy },
+        { key: "similarPhotos", label: "Similar", icon: Images },
+      ]
     },
-    { 
-      key: "longVideos", 
-      label: "Long videos", 
-      description: "Over 5 minutes",
-      icon: Clock
-    },
-    { 
-      key: "exactDuplicates", 
-      label: "Exact duplicates", 
-      description: "Identical copies",
-      icon: Copy
-    },
-    { 
-      key: "similarPhotos", 
-      label: "Similar photos", 
-      description: "Burst mode or retakes",
-      icon: Images
-    },
-    { 
-      key: "largeFiles", 
-      label: "Large files", 
-      description: "Over 50MB",
-      icon: HardDrive
+    {
+      title: "Storage",
+      filters: [
+        { key: "largeFiles", label: "Large Files", icon: HardDrive },
+      ]
     },
   ];
 
@@ -169,41 +130,39 @@ const SmartCleanScreen = () => {
               <ChevronLeft className="w-5 h-5 text-white/80" />
             </button>
           </Link>
-          <span className="text-[13px] text-white/40 font-medium tracking-wide uppercase">
-            {enabledCount} active
-          </span>
+          <h1 className="text-[17px] font-semibold text-white">Smart Clean</h1>
+          <div className="w-9" />
         </div>
 
-        {/* Title */}
-        <div className="px-5 mt-4 mb-8">
-          <h1 className="text-[28px] font-semibold text-white tracking-tight">
-            Smart Clean
-          </h1>
-          <p className="text-[15px] text-white/40 mt-1">
-            Choose what to look for
-          </p>
-        </div>
-
-        {/* Filters */}
-        <div className="px-5 pb-36">
-          <div className="bg-white/[0.03] rounded-2xl px-4">
-            {filterList.map((filter, index) => (
-              <div 
-                key={filter.key}
-                style={{ animationDelay: `${index * 50}ms` }}
-                className="animate-fade-in"
-              >
-                <FilterRow
-                  label={filter.label}
-                  description={filter.description}
-                  icon={filter.icon}
-                  enabled={filters[filter.key as keyof typeof filters]}
-                  onToggle={() => toggleFilter(filter.key)}
-                  isLast={index === filterList.length - 1}
-                />
+        {/* Categories */}
+        <div className="px-5 mt-4 pb-36 space-y-6">
+          {categories.map((category, catIndex) => (
+            <div 
+              key={category.title}
+              style={{ animationDelay: `${catIndex * 80}ms` }}
+              className="animate-fade-in"
+            >
+              <h2 className="text-[13px] font-medium text-white/40 uppercase tracking-wider mb-3 px-1">
+                {category.title}
+              </h2>
+              <div className={`grid gap-3 ${
+                category.filters.length === 1 ? 'grid-cols-2' : 'grid-cols-2'
+              }`}>
+                {category.filters.map((filter) => (
+                  <FilterCard
+                    key={filter.key}
+                    label={filter.label}
+                    icon={filter.icon}
+                    enabled={filters[filter.key as keyof typeof filters]}
+                    onToggle={() => toggleFilter(filter.key)}
+                  />
+                ))}
+                {category.filters.length === 1 && (
+                  <div className="aspect-square" />
+                )}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
 
         {/* Bottom Action */}
@@ -218,7 +177,7 @@ const SmartCleanScreen = () => {
             ) : (
               <>
                 <Sparkles className="w-4 h-4" />
-                Scan Library
+                Scan {enabledCount} Filter{enabledCount !== 1 ? 's' : ''}
               </>
             )}
           </button>
