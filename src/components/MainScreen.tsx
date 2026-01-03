@@ -102,31 +102,75 @@ const ScreenshotsIllustration = () => (
   </div>
 );
 
-// Smart Clean İllüstrasyon - Magic wand with sparkles
+// Smart Clean İllüstrasyon - Photos with magic effects
 const SmartCleanIllustration = () => (
-  <div className="relative w-full h-full flex items-center justify-center">
-    {/* Glow effects */}
-    <div className="absolute w-24 h-24 rounded-full bg-purple-500/30 blur-3xl" style={{ top: '15%', left: '20%' }} />
-    <div className="absolute w-20 h-20 rounded-full bg-pink-500/25 blur-2xl" style={{ bottom: '20%', right: '25%' }} />
+  <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+    {/* Ambient glow */}
+    <div className="absolute w-32 h-32 rounded-full bg-purple-500/25 blur-3xl" style={{ top: '10%', left: '15%' }} />
+    <div className="absolute w-28 h-28 rounded-full bg-pink-500/20 blur-2xl" style={{ bottom: '15%', right: '20%' }} />
     
-    {/* Magic wand */}
+    {/* Photo 1 - Getting magic effect (left) */}
     <div 
-      className="absolute w-4 h-36 rounded-full bg-gradient-to-b from-purple-400 via-fuchsia-400 to-pink-400 shadow-lg animate-wand-glow"
-      style={{ transform: 'rotate(-35deg)', transformOrigin: 'center' }}
+      className="absolute w-16 h-20 rounded-xl overflow-hidden animate-photo-magic-1"
+      style={{ left: '15%', top: '25%' }}
     >
-      {/* Wand tip */}
-      <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-white shadow-[0_0_20px_rgba(255,255,255,0.8)]" />
-      {/* Wand base */}
-      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-gradient-to-br from-pink-300 to-fuchsia-400 opacity-50 blur-sm" />
+      <div className="absolute inset-0 bg-gradient-to-br from-rose-400/40 to-pink-500/30 border border-white/15" />
+      <div className="absolute inset-1 rounded-lg bg-gradient-to-br from-white/10 to-transparent" />
+      {/* Magic glow overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-purple-500/40 to-fuchsia-400/20 animate-magic-glow" />
+      {/* Sparkle on photo */}
+      <div className="absolute top-1 right-1 w-2 h-2 bg-white rounded-full animate-sparkle-1 shadow-[0_0_8px_rgba(255,255,255,0.9)]" />
     </div>
     
-    {/* Sparkles */}
-    <div className="absolute w-2 h-2 bg-white rounded-full animate-sparkle-1 shadow-[0_0_10px_rgba(255,255,255,0.8)]" style={{ top: '20%', left: '40%' }} />
-    <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-sparkle-2 shadow-[0_0_8px_rgba(255,255,255,0.7)]" style={{ top: '30%', right: '35%' }} />
-    <div className="absolute w-2.5 h-2.5 bg-white rounded-full animate-sparkle-3 shadow-[0_0_12px_rgba(255,255,255,0.9)]" style={{ top: '15%', right: '40%' }} />
+    {/* Photo 2 - Center, larger with prominent magic */}
+    <div 
+      className="absolute w-20 h-24 rounded-xl overflow-hidden z-10 animate-photo-magic-2"
+      style={{ left: '35%', top: '30%' }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-violet-400/50 to-purple-600/40 border border-purple-300/20" />
+      <div className="absolute inset-1 rounded-lg bg-gradient-to-br from-white/15 to-transparent" />
+      {/* Check mark - approved */}
+      <div className="absolute bottom-2 right-2 w-5 h-5 rounded-full bg-emerald-500/80 flex items-center justify-center animate-check-appear">
+        <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+          <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </div>
+      {/* Magic particles */}
+      <div className="absolute top-0 left-2 w-1.5 h-1.5 bg-fuchsia-300 rounded-full animate-particle-up-1" />
+      <div className="absolute top-2 right-3 w-1 h-1 bg-purple-200 rounded-full animate-particle-up-2" />
+    </div>
     
-    {/* Star sparkle */}
-    <svg className="absolute w-5 h-5 text-white animate-sparkle-1" style={{ top: '18%', left: '48%' }} viewBox="0 0 24 24" fill="currentColor">
+    {/* Photo 3 - Right side, being evaluated */}
+    <div 
+      className="absolute w-14 h-18 rounded-xl overflow-hidden animate-photo-magic-3"
+      style={{ right: '18%', top: '35%' }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-400/35 to-indigo-500/25 border border-white/10" />
+      <div className="absolute inset-1 rounded-lg bg-gradient-to-br from-white/8 to-transparent" />
+      {/* X mark - to delete */}
+      <div className="absolute bottom-1.5 right-1.5 w-4 h-4 rounded-full bg-red-500/70 flex items-center justify-center animate-x-appear">
+        <svg className="w-2.5 h-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+          <path d="M6 6l12 12M6 18L18 6" strokeLinecap="round"/>
+        </svg>
+      </div>
+    </div>
+    
+    {/* Magic wand - smaller, positioned to touch photos */}
+    <div 
+      className="absolute w-2.5 h-24 rounded-full bg-gradient-to-b from-purple-300 via-fuchsia-400 to-pink-500 shadow-lg animate-wand-move z-20"
+      style={{ right: '30%', top: '15%', transformOrigin: 'bottom center' }}
+    >
+      {/* Wand tip with glow */}
+      <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-white shadow-[0_0_15px_rgba(255,255,255,0.9),0_0_30px_rgba(217,70,239,0.6)]" />
+    </div>
+    
+    {/* Floating sparkles around */}
+    <svg className="absolute w-4 h-4 text-white animate-sparkle-1 z-20" style={{ top: '20%', left: '45%' }} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0L13.5 9L24 12L13.5 15L12 24L10.5 15L0 12L10.5 9L12 0Z" />
+    </svg>
+    <div className="absolute w-2 h-2 bg-fuchsia-300 rounded-full animate-sparkle-2 shadow-[0_0_10px_rgba(217,70,239,0.8)]" style={{ top: '25%', right: '25%' }} />
+    <div className="absolute w-1.5 h-1.5 bg-purple-200 rounded-full animate-sparkle-3 shadow-[0_0_8px_rgba(168,85,247,0.7)]" style={{ bottom: '30%', left: '30%' }} />
+    <svg className="absolute w-3 h-3 text-pink-200 animate-sparkle-2 z-20" style={{ top: '45%', left: '25%' }} viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 0L13.5 9L24 12L13.5 15L12 24L10.5 15L0 12L10.5 9L12 0Z" />
     </svg>
   </div>
@@ -416,6 +460,55 @@ const MainScreen = () => {
           50% { filter: drop-shadow(0 0 20px rgba(217, 70, 239, 0.7)); }
         }
         
+        @keyframes wand-move {
+          0%, 100% { transform: rotate(-30deg) translateY(0); }
+          25% { transform: rotate(-35deg) translateY(-5px); }
+          50% { transform: rotate(-25deg) translateY(3px); }
+          75% { transform: rotate(-32deg) translateY(-2px); }
+        }
+        
+        @keyframes photo-magic-1 {
+          0%, 100% { transform: scale(1) rotate(-5deg); opacity: 0.9; }
+          50% { transform: scale(1.05) rotate(-3deg); opacity: 1; }
+        }
+        
+        @keyframes photo-magic-2 {
+          0%, 100% { transform: scale(1) rotate(3deg); }
+          50% { transform: scale(1.08) rotate(5deg); }
+        }
+        
+        @keyframes photo-magic-3 {
+          0%, 100% { transform: scale(1) rotate(5deg); opacity: 0.85; }
+          50% { transform: scale(1.03) rotate(7deg); opacity: 1; }
+        }
+        
+        @keyframes magic-glow {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 0.7; }
+        }
+        
+        @keyframes check-appear {
+          0%, 30% { transform: scale(0); opacity: 0; }
+          50% { transform: scale(1.2); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes x-appear {
+          0%, 50% { transform: scale(0); opacity: 0; }
+          70% { transform: scale(1.2); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes particle-up-1 {
+          0% { transform: translateY(0) scale(1); opacity: 1; }
+          100% { transform: translateY(-20px) scale(0); opacity: 0; }
+        }
+        
+        @keyframes particle-up-2 {
+          0% { transform: translateY(0) scale(1); opacity: 1; }
+          100% { transform: translateY(-15px) scale(0); opacity: 0; }
+        }
+        
         .animate-shuffle-1 { animation: shuffle-1 4s ease-in-out infinite; }
         .animate-shuffle-2 { animation: shuffle-2 4s ease-in-out infinite 0.5s; }
         .animate-shuffle-3 { animation: shuffle-3 4s ease-in-out infinite 1s; }
@@ -425,6 +518,15 @@ const MainScreen = () => {
         .animate-sparkle-2 { animation: sparkle-2 2.5s ease-in-out infinite 0.3s; }
         .animate-sparkle-3 { animation: sparkle-3 1.8s ease-in-out infinite 0.6s; }
         .animate-wand-glow { animation: wand-glow 2s ease-in-out infinite; }
+        .animate-wand-move { animation: wand-move 3s ease-in-out infinite, wand-glow 2s ease-in-out infinite; }
+        .animate-photo-magic-1 { animation: photo-magic-1 3s ease-in-out infinite; }
+        .animate-photo-magic-2 { animation: photo-magic-2 3s ease-in-out infinite 0.5s; }
+        .animate-photo-magic-3 { animation: photo-magic-3 3s ease-in-out infinite 1s; }
+        .animate-magic-glow { animation: magic-glow 2s ease-in-out infinite; }
+        .animate-check-appear { animation: check-appear 3s ease-in-out infinite; }
+        .animate-x-appear { animation: x-appear 3s ease-in-out infinite; }
+        .animate-particle-up-1 { animation: particle-up-1 2s ease-out infinite; }
+        .animate-particle-up-2 { animation: particle-up-2 2s ease-out infinite 0.3s; }
       `}</style>
     </div>
   );
