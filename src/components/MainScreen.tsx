@@ -2,22 +2,63 @@ import { Settings, FileText, Box, Sparkles, ChevronLeft, ChevronRight } from "lu
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 
-// Random Clean İllüstrasyon - Floating shapes
+// Random Clean İllüstrasyon - Shuffling cards/photos
 const RandomCleanIllustration = () => (
-  <div className="relative w-full h-full flex items-center justify-center">
-    {/* Floating rectangles */}
-    <div className="absolute w-24 h-14 rounded-xl bg-white/[0.08] border border-white/[0.12] backdrop-blur-sm animate-float-slow" style={{ top: '20%', left: '25%' }} />
-    <div className="absolute w-20 h-12 rounded-xl bg-white/[0.06] border border-white/[0.1] backdrop-blur-sm animate-float-medium" style={{ top: '35%', left: '45%' }} />
-    <div className="absolute w-16 h-10 rounded-lg bg-white/[0.05] border border-white/[0.08] animate-float-fast" style={{ top: '55%', left: '30%' }} />
+  <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+    {/* Shuffling photo cards */}
     
-    {/* Floating circles with colors */}
-    <div className="absolute w-8 h-8 rounded-full bg-purple-500/30 blur-sm animate-float-medium" style={{ top: '25%', right: '30%' }} />
-    <div className="absolute w-10 h-10 rounded-full bg-pink-500/25 blur-sm animate-float-slow" style={{ bottom: '30%', left: '35%' }} />
-    <div className="absolute w-6 h-6 rounded-full bg-teal-500/30 blur-sm animate-float-fast" style={{ bottom: '25%', right: '35%' }} />
-    <div className="absolute w-5 h-5 rounded-full bg-amber-500/25 blur-sm animate-float-medium" style={{ top: '45%', left: '25%' }} />
+    {/* Card 1 - Photo with landscape */}
+    <div 
+      className="absolute w-20 h-24 rounded-xl bg-gradient-to-br from-emerald-500/40 to-teal-600/30 border border-white/10 shadow-xl animate-shuffle-1"
+      style={{ transformOrigin: 'center bottom' }}
+    >
+      <div className="absolute inset-1 rounded-lg bg-gradient-to-br from-emerald-400/20 to-transparent" />
+      <div className="absolute bottom-2 left-2 right-2 h-4 rounded bg-white/10" />
+    </div>
     
-    {/* Subtle glow behind */}
-    <div className="absolute w-32 h-32 rounded-full bg-purple-500/10 blur-3xl" />
+    {/* Card 2 - Screenshot style */}
+    <div 
+      className="absolute w-20 h-24 rounded-xl bg-gradient-to-br from-blue-500/40 to-indigo-600/30 border border-white/10 shadow-xl animate-shuffle-2"
+      style={{ transformOrigin: 'center bottom' }}
+    >
+      <div className="absolute top-2 left-2 right-2 h-2 rounded-full bg-white/15" />
+      <div className="absolute top-5 left-2 w-10 h-1.5 rounded-full bg-white/10" />
+      <div className="absolute top-8 left-2 w-8 h-1.5 rounded-full bg-white/8" />
+    </div>
+    
+    {/* Card 3 - Video thumbnail */}
+    <div 
+      className="absolute w-20 h-24 rounded-xl bg-gradient-to-br from-purple-500/40 to-pink-600/30 border border-white/10 shadow-xl animate-shuffle-3"
+      style={{ transformOrigin: 'center bottom' }}
+    >
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+          <div className="w-0 h-0 border-l-[8px] border-l-white/60 border-y-[5px] border-y-transparent ml-1" />
+        </div>
+      </div>
+    </div>
+    
+    {/* Card 4 - Document */}
+    <div 
+      className="absolute w-20 h-24 rounded-xl bg-gradient-to-br from-amber-500/40 to-orange-600/30 border border-white/10 shadow-xl animate-shuffle-4"
+      style={{ transformOrigin: 'center bottom' }}
+    >
+      <div className="absolute top-3 left-3 right-3 space-y-1.5">
+        <div className="h-1.5 rounded-full bg-white/15" />
+        <div className="h-1.5 rounded-full bg-white/12 w-3/4" />
+        <div className="h-1.5 rounded-full bg-white/10 w-1/2" />
+      </div>
+    </div>
+    
+    {/* Shuffle icon in center */}
+    <div className="absolute w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center z-10 animate-pulse-slow">
+      <svg className="w-6 h-6 text-white/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </div>
+    
+    {/* Ambient glow */}
+    <div className="absolute w-40 h-40 rounded-full bg-gradient-to-br from-purple-500/15 to-pink-500/10 blur-3xl -z-10" />
   </div>
 );
 
@@ -321,19 +362,37 @@ const MainScreen = () => {
           scrollbar-width: none;
         }
         
-        @keyframes float-slow {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-10px) rotate(2deg); }
+        @keyframes shuffle-1 {
+          0%, 100% { transform: rotate(-15deg) translateX(-30px) translateY(5px); z-index: 1; }
+          25% { transform: rotate(-5deg) translateX(-10px) translateY(-20px); z-index: 4; }
+          50% { transform: rotate(10deg) translateX(25px) translateY(0px); z-index: 2; }
+          75% { transform: rotate(-8deg) translateX(-5px) translateY(10px); z-index: 3; }
         }
         
-        @keyframes float-medium {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-8px) rotate(-2deg); }
+        @keyframes shuffle-2 {
+          0%, 100% { transform: rotate(10deg) translateX(25px) translateY(-5px); z-index: 2; }
+          25% { transform: rotate(-12deg) translateX(-25px) translateY(5px); z-index: 1; }
+          50% { transform: rotate(-5deg) translateX(-15px) translateY(-15px); z-index: 4; }
+          75% { transform: rotate(15deg) translateX(30px) translateY(0px); z-index: 2; }
         }
         
-        @keyframes float-fast {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-6px); }
+        @keyframes shuffle-3 {
+          0%, 100% { transform: rotate(-5deg) translateX(-10px) translateY(-20px); z-index: 4; }
+          25% { transform: rotate(12deg) translateX(20px) translateY(5px); z-index: 2; }
+          50% { transform: rotate(-15deg) translateX(-25px) translateY(10px); z-index: 1; }
+          75% { transform: rotate(5deg) translateX(10px) translateY(-10px); z-index: 3; }
+        }
+        
+        @keyframes shuffle-4 {
+          0%, 100% { transform: rotate(8deg) translateX(15px) translateY(10px); z-index: 3; }
+          25% { transform: rotate(-10deg) translateX(-20px) translateY(-10px); z-index: 3; }
+          50% { transform: rotate(5deg) translateX(5px) translateY(15px); z-index: 3; }
+          75% { transform: rotate(-15deg) translateX(-30px) translateY(-5px); z-index: 1; }
+        }
+        
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 0.8; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.1); }
         }
         
         @keyframes sparkle-1 {
@@ -357,9 +416,11 @@ const MainScreen = () => {
           50% { filter: drop-shadow(0 0 20px rgba(217, 70, 239, 0.7)); }
         }
         
-        .animate-float-slow { animation: float-slow 4s ease-in-out infinite; }
-        .animate-float-medium { animation: float-medium 3s ease-in-out infinite; }
-        .animate-float-fast { animation: float-fast 2s ease-in-out infinite; }
+        .animate-shuffle-1 { animation: shuffle-1 4s ease-in-out infinite; }
+        .animate-shuffle-2 { animation: shuffle-2 4s ease-in-out infinite 0.5s; }
+        .animate-shuffle-3 { animation: shuffle-3 4s ease-in-out infinite 1s; }
+        .animate-shuffle-4 { animation: shuffle-4 4s ease-in-out infinite 1.5s; }
+        .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
         .animate-sparkle-1 { animation: sparkle-1 2s ease-in-out infinite; }
         .animate-sparkle-2 { animation: sparkle-2 2.5s ease-in-out infinite 0.3s; }
         .animate-sparkle-3 { animation: sparkle-3 1.8s ease-in-out infinite 0.6s; }
